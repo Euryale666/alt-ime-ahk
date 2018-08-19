@@ -1,10 +1,10 @@
-; 左右 Alt キーの空打ちで IME の OFF/ON を切り替える
+; 右 Alt キーの空打ちで IME の OFF/ON を切り替える
 ;
-; 左 Alt キーの空打ちで IME を「英数」に切り替え
-; 右 Alt キーの空打ちで IME を「かな」に切り替え
+; 右 Alt キーの空打ちで IME を「かな」←→「英数」切り替え
 ; Alt キーを押している間に他のキーを打つと通常の Alt キーとして動作
 ;
-; Author:     karakaram   http://www.karakaram.com/alt-ime-on-off
+; Original Author:     karakaram   http://www.karakaram.com/alt-ime-on-off
+; Author:     Euryale
 
 #Include IME.ahk
 
@@ -108,21 +108,20 @@
     Return
 
 ; 上部メニューがアクティブになるのを抑制
-*~LAlt::Send {Blind}{vk07}
 *~RAlt::Send {Blind}{vk07}
 
-; 左 Alt 空打ちで IME を OFF
-LAlt up::
-    if (A_PriorHotkey == "*~LAlt")
-    {
-        IME_SET(0)
-    }
-    Return
-
-; 右 Alt 空打ちで IME を ON
+; 右 Alt 空打ちで IME を 切り替え
 RAlt up::
     if (A_PriorHotkey == "*~RAlt")
     {
-        IME_SET(1)
+	getIMEMode := IME_Get()
+	if (%getIMEMode% = 0)
+	{
+	    IME_SET(1)
+	}
+	else
+	{
+	    IME_SET(0)
+	}
     }
     Return
